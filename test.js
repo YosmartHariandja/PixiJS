@@ -1,22 +1,43 @@
-//Create a Pixi Application
-let app = new PIXI.Application({ 
-    width: 256,         // default: 800
-    height: 256,        // default: 600
-    antialias: true,    // default: false
-    transparent: false, // default: false
-    resolution: 1,       // default: 1
-    backgroundColor: 0xFF00FF,
-  }
-);
+let app = new PIXI.Application({
+  width: 800,
+  height: 600,
+  antialias: true,
+  transparent: false,
+  resolution: 1,
+  backgroundColor: 0xAAAAAA,
+});
 
-app.renderer.autoResize = true;
-app.renderer.resize(500, 500);
-
-app.renderer.view.style.position = "absolute";
-app.renderer.view.style.display = "block";
-app.renderer.autoResize = true;
-app.renderer.resize(window.innerWidth, window.innerHeight);
-
-
-//Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);
+
+PIXI.loader
+  .add("images/cat.png")
+  .load(setup);
+
+function setup() {
+
+  let center = new PIXI.Circle(app.view.width / 2, app.view.height / 2);
+
+  //cat objects
+  let cat = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
+  // cat.anchor.set(0.5);
+  // cat.x = app.view.width / 2;
+  // cat.y = app.view.height / 2;
+  cat.position.set(center.x, center.y);
+  // cat.width = 80;
+  // cat.height = 120;
+  // cat.scale.x = 0.5;
+  // cat.scale.y = 0.5;
+  cat.scale.set(1);
+  cat.rotation = 0 * Math.PI / 180;
+  cat.pivot.set(32);
+
+  let dot = new PIXI.Graphics();
+  dot.beginFill(0x000000);
+  dot.drawCircle(0, 0, 5);
+  dot.endFill();
+  dot.position.set(app.view.width / 2, app.view.height / 2);
+  
+  app.stage.addChild(cat);
+  app.stage.addChild(dot);
+
+}
